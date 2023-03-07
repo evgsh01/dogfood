@@ -1,0 +1,22 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    color: white;
+    background-color: red;
+}
+
+#root {
+    background-image: url('./images/bg.jpg');
+}
+
+.image {
+    max-width: 150px;
+}
