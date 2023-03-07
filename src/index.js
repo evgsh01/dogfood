@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import logoPngSrc from './images/ReactLogo.png'
-import {ReactComponent as Logo} from './images/logo.svg'
-/* import App from './App'; */
+/* import logoPngSrc from './images/ReactLogo.png'
+import {ReactComponent as Logo} from './images/logo.svg' */
+import { App } from './components/app';
 import './style.css';
 
 
 
-const AppList = () => {
+/* const AppList = () => {
   const item = ['Мой первый компонент', 'Мой второй компонент'];
   return (
     <ul>
@@ -29,11 +29,11 @@ const AppInput = ({placeholder, label, type}) => {
   );
 }
 
-const AppHeader = () => {
+const AppHeader = ({title, children}) => {
   return (
     <div>
-      <Logo/>
-      <h1 className='header-title'><span>Hello, World!</span></h1>
+      {children}
+      {title && <h1 className='header-title'><span>{title}</span></h1>}
     </div>
   );
 }
@@ -41,13 +41,17 @@ const AppHeader = () => {
 const App = () => {
   return (
     <>
-      <AppHeader/>
+      <AppHeader title="Hello, World!">
+        <Logo/>
+        <img className='image' src={logoPngSrc}/>
+      </AppHeader>
+      <AppHeader title="Hello, NEW World!"/>
       <AppList/>
       <AppInput placeholder='Введите ваше имя' label="Имя" type='text'/>
       <AppInput placeholder='Введите пароль' label="Пароль" type='password'/>
     </>
   );
-}
+} */
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
