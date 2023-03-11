@@ -6,7 +6,7 @@ export function Card({name, price, discount, wight, description, picture, ...pro
   return (
     <article className="card">
       <div className="card__sticky card__sticky_type_top-left">
-        <span className="card__discount">{`-${discount}%`}</span>
+        <span className="card__discount">{`- ${discount}%`}</span>
       </div>
 
       <div className="card__sticky card__sticky_type_top-right">
