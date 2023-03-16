@@ -1,14 +1,11 @@
-import { Logo } from '../logo';
-import { Search } from '../search';
 import { Nav } from '../nav';
 import './styles.css';
 
-export function Header() {
+export function Header({ children }) {
   return (
     <header className='header'>
       <div className="container header__wrapper">
-        <Logo/>
-        <Search/>
+        { children }
         <Nav/>
       </div>
 
