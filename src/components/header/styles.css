@@ -10,7 +10,13 @@
     justify-content: space-between;
     gap: 80px;
 }
-  
+
+.author {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
 @media (max-width: 700px) {
     .header__wrapper {
       gap: 32px;

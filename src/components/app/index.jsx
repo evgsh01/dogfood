@@ -5,18 +5,20 @@ import { Search } from '../search';
 import { Sort } from '../sort';
 import { CardList } from '../card-list';
 import { Footer } from '../footer';
+import api from '../../utils/api';
+import { useDebounce } from '../../hooks/useDebounce';
+import { isLiked } from '../../utils/products';
 import './styles.css';
-import { dataCard } from '../../data';
-
 
 export function App() {
-
-  const [cards, setCards] = useState(dataCard);
+  const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const debounceSearchQuery = useDebounce(searchQuery, 300);
 
   function handleRequest () {
-    const filterCards = dataCard.filter(item => item.name.includes(searchQuery));
-    setCards(filterCards);
+    api.search(debounceSearchQuery)
+      .then((dataSearch) => setCards(dataSearch))
   }
 
   function hadleFormSubmit(e) {
@@ -28,19 +30,47 @@ export function App() {
     setSearchQuery(dataInput);
   }
 
-/*   useEffect(() => {
+  function handleUserUpdate (dataUserUpdate) {
+    api.setUserInfo(dataUserUpdate)
+      .then((updateUserFromServer) => {
+        setCurrentUser(updateUserFromServer)
+      })
+  }
+
+  function handleProductLike(product) {
+    const like = isLiked(product.likes, currentUser._id);
+    api.changeLikeProductStatus(product._id, like)
+      .then((updateCard) => {
+        const newProducts = cards.map(cardState => {
+          return cardState._id === updateCard._id ? updateCard : cardState;
+        })
+
+        setCards(newProducts);
+      })
+  }
+
+  useEffect(() => {
     handleRequest();
-  }, [searchQuery]); */
+  }, [debounceSearchQuery]);
+
+  useEffect(() => {
+    api.getAllInfo()
+      .then(([productsData, userInfoData]) => {
+        setCurrentUser(userInfoData)
+        setCards(productsData.products)
+      })
+      .catch(err => console.log(err))
+  }, [])
 
   return (
     <>
-      <Header>
+      <Header user={currentUser} onUpdateUser={handleUserUpdate}>
         <Logo/>
         <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
       </Header>
       <main className="content container">
         <Sort/>
-        <CardList goods={cards}/>
+        <CardList goods={cards} onProductLike={handleProductLike} currentUser={currentUser}/>
       </main>
       <Footer/>
     </>
