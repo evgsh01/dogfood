@@ -4,7 +4,7 @@ import { isLiked } from '../../utils/products';
 import './styles.css';
 
 
-export function Card({name, price, discount, wight, description, pictures, likes, _id, onProductLike, currentUser, ...props}) {
+export function Card({name, price, discount, wight, description, pictures, tags, likes, _id, onProductLike, currentUser, ...props}) {
 
   const discountPrice = Math.round(price - (price * discount) / 100);
 
@@ -17,7 +17,15 @@ export function Card({name, price, discount, wight, description, pictures, likes
   return (
     <article className="card">
       <div className="card__sticky card__sticky_type_top-left">
-        {discount !== 0 && (<span className="card__discount">{`- ${discount}%`}</span>)}
+        {discount !== 0 && (
+          <span className="card__discount">{`-${discount}%`}</span>
+        )}
+        {tags && tags.map(tagName => (
+          <span key={tagName} className={cn('tag', { [`tag_type_${tagName}`]: true })}>
+            {tagName}
+          </span>
+        )
+        )}
       </div>
 
       <div className="card__sticky card__sticky_type_top-right">
