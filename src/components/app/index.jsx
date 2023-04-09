@@ -2,18 +2,22 @@ import { useState, useEffect } from 'react';
 import { Header } from '../header';
 import { Logo } from '../logo';
 import { Search } from '../search';
-import { Sort } from '../sort';
-import { CardList } from '../card-list';
 import { Footer } from '../footer';
 import api from '../../utils/api';
 import { useDebounce } from '../../hooks/useDebounce';
 import { isLiked } from '../../utils/products';
+import { CatalogPage } from '../../pages/catalog-page';
+import { ProductPage } from '../../pages/product-page';
+
 import './styles.css';
+
 
 export function App() {
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const debounceSearchQuery = useDebounce(searchQuery, 300);
 
   function handleRequest () {
@@ -54,12 +58,14 @@ export function App() {
   }, [debounceSearchQuery]);
 
   useEffect(() => {
+    setIsLoading(true);
     api.getAllInfo()
       .then(([productsData, userInfoData]) => {
         setCurrentUser(userInfoData)
         setCards(productsData.products)
       })
       .catch(err => console.log(err))
+      .finally(() => { setIsLoading(false) }) 
   }, [])
 
   return (
@@ -69,8 +75,8 @@ export function App() {
         <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
       </Header>
       <main className="content container">
-        <Sort/>
-        <CardList goods={cards} onProductLike={handleProductLike} currentUser={currentUser}/>
+        <ProductPage />
+        <CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>
       </main>
       <Footer/>
     </>
