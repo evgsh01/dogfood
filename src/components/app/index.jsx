@@ -8,8 +8,9 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { isLiked } from '../../utils/products';
 import { CatalogPage } from '../../pages/catalog-page';
 import { ProductPage } from '../../pages/product-page';
-
+import FaqPage from '../../pages/faq-page';
 import './styles.css';
+
 
 
 export function App() {
@@ -75,6 +76,7 @@ export function App() {
         <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
       </Header>
       <main className="content container">
+        <FaqPage />
         <ProductPage />
         <CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>
       </main>

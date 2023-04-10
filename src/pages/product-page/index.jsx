@@ -16,7 +16,7 @@ export const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     function handleProductLike(product) {
-        const like = isLiked(product.likes, currentUser?._id);
+        const like = isLiked(product.likes, currentUser._id);
         api.changeLikeProductStatus(product._id, like)
             .then((updateCard) => {
                 setProduct(updateCard);
