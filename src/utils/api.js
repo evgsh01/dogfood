@@ -48,7 +48,7 @@ class Api {
     changeLikeProductStatus(productId, like) {
         return fetch(`${this.#baseUrl}products/likes/${productId}`, {
             method: like ? 'DELETE' : 'PUT',
-            headers: this.#headers,
+            headers: this.#headers
         })
             .then(this.#onResponse)
     }

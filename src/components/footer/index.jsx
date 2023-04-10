@@ -1,5 +1,5 @@
 import logoSrc from "../logo/assets/logo.svg";
-import './styles.css';
+import s from './styles.module.css';
 
 export function Footer() {
   return (

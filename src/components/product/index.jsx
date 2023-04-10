@@ -7,7 +7,7 @@ import quality from "../../images/quality.svg";
 
 import s from "./styles.module.css";
 
-function Product({ onProductLike, _id, name, pictures, description, discount, price, likes = [], currentUser = {}, reviews }) {
+function Product({ onProductLike, _id, name, pictures, description, discount, price, likes, currentUser, reviews }) {
     const discount_price = calcDiscountPrice(price, discount);
 
     const like = isLiked(likes, currentUser?._id);
@@ -55,8 +55,8 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
                         <Button href="#" type="primary">В корзину</Button>
                     </div>
 
-                    <button className={cn(s.favorite, {[s.favoriteActive] : like})} onClick={handleLikeClick}>
-                        <LikeIcon/>
+                    <button className={cn(s.favorite, { [s.favoriteActive]: like })} onClick={handleLikeClick}>
+                        <LikeIcon />
                         {like ? 'В избранном' : 'В избранное'}
                     </button>
 

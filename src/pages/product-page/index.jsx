@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import api from '../../utils/api';
 import Product from '../../components/product';
 import { isLiked } from '../../utils/products';
+import { Spinner } from '../../components/spinner';
 
 import s from './styles.module.css';
-import { Spinner } from '../../components/spinner';
 
 
 

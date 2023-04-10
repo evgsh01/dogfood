@@ -9,7 +9,11 @@ import { isLiked } from '../../utils/products';
 import { CatalogPage } from '../../pages/catalog-page';
 import { ProductPage } from '../../pages/product-page';
 import FaqPage from '../../pages/faq-page';
+import { NotFoundPage } from '../../pages/not-found-page';
+import { Route, Routes } from 'react-router-dom';
+
 import './styles.css';
+
 
 
 
@@ -73,12 +77,18 @@ export function App() {
     <>
       <Header user={currentUser} onUpdateUser={handleUserUpdate}>
         <Logo/>
-        <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
+        <Routes>
+          <Route path='/' element={<Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>}/>
+          <Route path='*' element={null}/>
+        </Routes>        
       </Header>
       <main className="content container">
-        <FaqPage />
-        <ProductPage />
-        <CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>
+        <Routes>
+          <Route path='/' element={<CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>}/>
+          <Route path='/faq' element={<FaqPage />}/>
+          <Route path='/product' element={<ProductPage />}/>
+          <Route path='*' element={<NotFoundPage />}/>
+        </Routes>
       </main>
       <Footer/>
     </>

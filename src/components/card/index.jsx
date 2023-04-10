@@ -11,6 +11,7 @@ export function Card({name, price, discount, wight, description, pictures, tags,
   const like = isLiked(likes, currentUser?._id);
   
   function handleClickButtonLike() {
+    console.log(likes);
     onProductLike({ likes, _id })
   }
 
