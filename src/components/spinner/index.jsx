@@ -2,7 +2,7 @@ import s from './styles.module.css';
 
 export function Spinner() {
   return (
-    <div class={s.loader}>
+    <div className={s.loader}>
         <span></span>
         <span></span>
         <span></span>

@@ -2,6 +2,7 @@ import likeIcon from './assets/favorites.svg';
 import dog from './assets/dog.svg';
 import bag from './assets/bag.svg';
 import menu from './assets/menu.svg';
+
 import './styles.css';
 
 export function Nav() {

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { CardsContext } from '../../contexts/card-context';
+
 import api from '../../utils/api';
 import Product from '../../components/product';
 import { isLiked } from '../../utils/products';
 import { Spinner } from '../../components/spinner';
-
-import s from './styles.module.css';
 import { NotFound } from '../../components/not-found';
 
+import s from './styles.module.css';
 
 export const ProductPage = () => {
     const { productID } = useParams()
@@ -16,13 +18,12 @@ export const ProductPage = () => {
     const [currentUser, setCurrentUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorState, setErrorState] = useState(null);
+    const {handleLike} = useContext(CardsContext);
 
     function handleProductLike(product) {
-        const like = isLiked(product.likes, currentUser._id);
-        api.changeLikeProductStatus(product._id, like)
-            .then((updateCard) => {
-                setProduct(updateCard);
-            })
+        handleLike(product).then(updateCard => {
+            setProduct(updateCard);
+        });
     }
 
     useEffect(() => {
@@ -45,7 +46,7 @@ export const ProductPage = () => {
             {
                 isLoading 
                 ? <Spinner/>
-                : !errorState && <Product {...product} currentUser={currentUser} onProductLike={handleProductLike}/>
+                : !errorState && <Product {...product} onProductLike={handleProductLike}/>
             }
 
             {!isLoading && errorState && <NotFound title="Товар не найден"/>}

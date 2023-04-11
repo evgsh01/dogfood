@@ -1,4 +1,5 @@
 import { Logo } from "../logo";
+
 import s from './styles.module.css';
 
 export function Footer() {

@@ -1,5 +1,6 @@
 import { ReactComponent as NotFoundIcon } from './img/ic-notfound.svg';
 import { Button } from '../button';
+
 import s from './styles.module.css';
 
 

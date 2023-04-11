@@ -1,15 +1,20 @@
 import cn from "classnames";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+
 import { calcDiscountPrice, isLiked } from "../../utils/products";
 import { Button } from "../button";
 import { ReactComponent as LikeIcon } from "../../images/save.svg";
 import truck from "../../images/truck.svg";
 import quality from "../../images/quality.svg";
+import { UserContext } from "../../contexts/current-user-context";
 
 import s from "./styles.module.css";
-import { useNavigate } from "react-router-dom";
 
-function Product({ onProductLike, _id, name, pictures, description, discount, price, likes, currentUser, reviews }) {
+function Product({ onProductLike, _id, name, pictures, description, discount, price, likes, reviews }) {
     const navigate = useNavigate();
+
+    const { currentUser } = useContext(UserContext);
 
     const discount_price = calcDiscountPrice(price, discount);
 

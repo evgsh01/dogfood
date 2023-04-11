@@ -1,18 +1,25 @@
 import cn from 'classnames';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CardsContext } from '../../contexts/card-context';
+import { UserContext } from '../../contexts/current-user-context';
+
 import { ReactComponent as LikeIcon } from '../../images/save.svg';
 import { calcDiscountPrice, isLiked } from '../../utils/products';
+
 import './styles.css';
 
 
-export function Card({name, price, discount, wight, description, pictures, tags, likes, _id, onProductLike, currentUser, ...props}) {
+export function Card({name, price, discount, wight, description, pictures, tags, likes, _id, ...props}) {
 
   const discount_price = calcDiscountPrice(price, discount);
+
+  const { currentUser } = useContext(UserContext);
+  const { handleLike: onProductLike } = useContext(CardsContext);
 
   const like = isLiked(likes, currentUser?._id);
   
   function handleClickButtonLike() {
-    console.log(likes);
     onProductLike({ likes, _id })
   }
 

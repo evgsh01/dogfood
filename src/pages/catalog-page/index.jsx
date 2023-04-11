@@ -1,11 +1,11 @@
 import { Sort } from '../../components/sort';
 import { CardList } from '../../components/card-list';
-
-import s from './styles.module.css';
 import { Spinner } from '../../components/spinner';
 
+import s from './styles.module.css';
+
  
-export function CatalogPage ({ cards, handleProductLike, currentUser, isLoading }) {
+export function CatalogPage ({ isLoading }) {
     return (
         <>
             {
@@ -13,11 +13,11 @@ export function CatalogPage ({ cards, handleProductLike, currentUser, isLoading 
                 ? <Spinner />
                 : <>
                     <Sort />
-                    <CardList goods={cards} handleProductLike={handleProductLike} currentUser={currentUser}/>
+                    <CardList />
                 </>
             }
             <Sort />
-            <CardList goods={cards} handleProductLike={handleProductLike} currentUser={currentUser}/>
+            <CardList />
         </>
     )
 }

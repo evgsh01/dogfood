@@ -1,6 +1,7 @@
-import './styles.css';
 import { ReactComponent as CloseIcon } from './assets/ic-close-input.svg';
 import { ReactComponent as SearchIcon } from './assets/ic-search.svg';
+
+import './styles.css';
 
 export function Search({onSubmit, onChange}) {
   return (

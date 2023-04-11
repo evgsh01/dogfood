@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+
 import { Header } from '../header';
 import { Logo } from '../logo';
 import { Search } from '../search';
@@ -10,12 +12,10 @@ import { CatalogPage } from '../../pages/catalog-page';
 import { ProductPage } from '../../pages/product-page';
 import FaqPage from '../../pages/faq-page';
 import { NotFoundPage } from '../../pages/not-found-page';
-import { Route, Routes } from 'react-router-dom';
+import { UserContext } from '../../contexts/current-user-context';
+import { CardsContext } from '../../contexts/card-context';
 
 import './styles.css';
-
-
-
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -48,13 +48,15 @@ export function App() {
 
   function handleProductLike(product) {
     const like = isLiked(product.likes, currentUser._id);
-    api.changeLikeProductStatus(product._id, like)
+    return api.changeLikeProductStatus(product._id, like)
       .then((updateCard) => {
         const newProducts = cards.map(cardState => {
           return cardState._id === updateCard._id ? updateCard : cardState;
         })
 
         setCards(newProducts);
+
+        return updateCard;
       })
   }
 
@@ -74,29 +76,31 @@ export function App() {
   }, [])
 
   return (
-    <>
-      <Header user={currentUser} onUpdateUser={handleUserUpdate}>
-        
-        <Routes>
-          <Route path='/' element={
-            <>
-              <Logo />
-              <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
-            </>
-          }/>
-          <Route path='*' element={<Logo href='/'/>}/>
-        </Routes>        
-      </Header>
-      <main className="content container">
-        <Routes>
-          <Route path='/' element={<CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>}/>
-          <Route path='/faq' element={<FaqPage />}/>
-          <Route path='/product/:productID' element={<ProductPage />}/>
-          <Route path='*' element={<NotFoundPage />}/>
-        </Routes>
-      </main>
-      <Footer/>
-    </>
+    <CardsContext.Provider value={{ cards, handleLike: handleProductLike}}>
+      <UserContext.Provider value={{currentUser, onUpdateUser:handleUserUpdate}}>
+        <Header user={currentUser}>
+          
+          <Routes>
+            <Route path='/' element={
+              <>
+                <Logo />
+                <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
+              </>
+            }/>
+            <Route path='*' element={<Logo href='/'/>}/>
+          </Routes>        
+        </Header>
+        <main className="content container">
+          <Routes>
+            <Route path='/' element={<CatalogPage isLoading={isLoading}/>}/>
+            <Route path='/faq' element={<FaqPage />}/>
+            <Route path='/product/:productID' element={<ProductPage />}/>
+            <Route path='*' element={<NotFoundPage />}/>
+          </Routes>
+        </main>
+        <Footer/>
+      </UserContext.Provider>
+    </CardsContext.Provider> 
   );
 }
 
