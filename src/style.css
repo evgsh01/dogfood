@@ -7,9 +7,19 @@
 }
 html {
     box-sizing: border-box;
+    height: 100%;
+    scrollbar-gutter: stable;
 }
+
 body {
     font-family: "Nunito", "Arial", "Helvetica", sans-serif;
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .container {
@@ -26,6 +36,7 @@ img {
 
 .content {
     padding: 20px 0;
+    flex: 1;
 }
 
 .content__sort {

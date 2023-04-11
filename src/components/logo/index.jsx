@@ -1,13 +1,22 @@
-import './styles.css';
+import cn from 'classnames';
+import { Link } from 'react-router-dom';
 import logoSrc from "./assets/logo.svg";
 import logoSrcSmall from "./assets/logo_small.svg";
 
-export function Logo() {
+import './styles.css';
+
+export function Logo({ className, href, ...props }) {
+  const hrefValue = href ? href : null;
   return (
-    <a href="/" className="logo">
-      <img src={logoSrc} alt='Логотип компании' className="logo__pic" />
-      <img src={logoSrcSmall} alt='Логотип компании' className="logo__pic logo__pic-small" />
-    </a>
+    hrefValue
+    ? <Link to={{ pathname: hrefValue }} className={cn("logo", {className: !!className})}>
+        <img src={logoSrc} alt='Логотип компании' className="logo__pic" />
+        <img src={logoSrcSmall} alt='Логотип компании' className="logo__pic logo__pic-small" />
+      </Link>
+    : <span className={`${className}: logo`} {...props}>
+        <img src={logoSrc} alt='Логотип компании' className="logo__pic" />
+        <img src={logoSrcSmall} alt='Логотип компании' className="logo__pic logo__pic-small" />
+    </span>
   );
 }
 

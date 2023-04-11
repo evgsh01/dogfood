@@ -10,8 +10,8 @@ export function NotFound({children, title, buttonText = 'На главную', b
             <h1 className={s.title}>{title}</h1>
             {children && children}
             {buttonAction 
-                ? <Button href='#' action={buttonAction}>{buttonText}</Button>
-                : <Button href='/'>{buttonText}</Button>
+                ? <Button type='secondary' href='#' action={buttonAction}>{buttonText}</Button>
+                : <Button type='secondary' href='/'>{buttonText}</Button>
             }
         </div>
     );

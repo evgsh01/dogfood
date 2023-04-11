@@ -76,17 +76,22 @@ export function App() {
   return (
     <>
       <Header user={currentUser} onUpdateUser={handleUserUpdate}>
-        <Logo/>
+        
         <Routes>
-          <Route path='/' element={<Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>}/>
-          <Route path='*' element={null}/>
+          <Route path='/' element={
+            <>
+              <Logo />
+              <Search onSubmit={hadleFormSubmit} onChange={handleInputChange}/>
+            </>
+          }/>
+          <Route path='*' element={<Logo href='/'/>}/>
         </Routes>        
       </Header>
       <main className="content container">
         <Routes>
           <Route path='/' element={<CatalogPage cards={cards} handleProductLike={handleProductLike} currentUser={currentUser} isLoading={isLoading}/>}/>
           <Route path='/faq' element={<FaqPage />}/>
-          <Route path='/product' element={<ProductPage />}/>
+          <Route path='/product/:productID' element={<ProductPage />}/>
           <Route path='*' element={<NotFoundPage />}/>
         </Routes>
       </main>
