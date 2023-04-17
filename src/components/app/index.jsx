@@ -14,11 +14,14 @@ import FaqPage from '../../pages/faq-page';
 import { NotFoundPage } from '../../pages/not-found-page';
 import { UserContext } from '../../contexts/current-user-context';
 import { CardsContext } from '../../contexts/card-context';
+import { FavoritesPage } from '../../pages/favorite-page';
 
 import './styles.css';
 
+
 export function App() {
   const [cards, setCards] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +59,12 @@ export function App() {
 
         setCards(newProducts);
 
+        if (!like) {
+          setFavorites(prevState => [...prevState, updateCard]);
+        } else {
+          setFavorites(prevState => prevState.filter(card => card._id !== updateCard._id));
+        }
+
         return updateCard;
       })
   }
@@ -68,15 +77,18 @@ export function App() {
     setIsLoading(true);
     api.getAllInfo()
       .then(([productsData, userInfoData]) => {
-        setCurrentUser(userInfoData)
-        setCards(productsData.products)
+        setCurrentUser(userInfoData) // выполнится асинхронно
+        setCards(productsData.products) // выполнится асинхронно
+
+        const favoriteProducts = productsData.products.filter(item => isLiked(item.likes, userInfoData._id)) // синхронная операция
+        setFavorites(favoriteProducts) // выполнится асинхронно
       })
       .catch(err => console.log(err))
       .finally(() => { setIsLoading(false) }) 
   }, [])
 
   return (
-    <CardsContext.Provider value={{ cards, handleLike: handleProductLike}}>
+    <CardsContext.Provider value={{ cards, favorites, handleLike: handleProductLike}}>
       <UserContext.Provider value={{currentUser, onUpdateUser:handleUserUpdate}}>
         <Header user={currentUser}>
           
@@ -93,6 +105,7 @@ export function App() {
         <main className="content container">
           <Routes>
             <Route path='/' element={<CatalogPage isLoading={isLoading}/>}/>
+            <Route path='/favorites' element={<FavoritesPage />}/>
             <Route path='/faq' element={<FaqPage />}/>
             <Route path='/product/:productID' element={<ProductPage />}/>
             <Route path='*' element={<NotFoundPage />}/>
