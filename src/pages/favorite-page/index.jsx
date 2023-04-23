@@ -3,16 +3,21 @@ import { useContext } from "react"
 import { CardsContext } from "../../contexts/card-context"
 import { Spinner } from "../../components/spinner";
 import { CardList } from "../../components/card-list";
+import { ContentHeader } from "../../components/content-header";
  
-export function FavoritesPage ({ isLoading }) {
-    const { favorites: goods } = useContext(CardsContext);
+export function FavoritesPage () {
+    const { favorites: goods, isLoading } = useContext(CardsContext);
 
     return (
         <>
             {
                 isLoading 
                 ? <Spinner />
-                : <CardList goods={goods}/>
+                : 
+                <>
+                    <ContentHeader title='Избранное' textButton="Назад"/>
+                    <CardList goods={goods}/>
+                </>
             }
         </>
     )

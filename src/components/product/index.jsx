@@ -8,6 +8,7 @@ import { ReactComponent as LikeIcon } from "../../images/save.svg";
 import truck from "../../images/truck.svg";
 import quality from "../../images/quality.svg";
 import { UserContext } from "../../contexts/current-user-context";
+import { ContentHeader } from '../content-header';
 
 import s from "./styles.module.css";
 
@@ -30,12 +31,10 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
 
     return (
         <>
-            <div className={s.header}>
-                <a href="#" className="button-back" onClick={ () => navigate(-1) }>Назад</a>
-                <h1 className={s.productTitle}>{name}</h1>
+            <ContentHeader textButton='Назад' title={name}>
                 <p className={s.aсticul}>Артикул: <b>2222222</b></p>
-            </div>
-
+            </ContentHeader>
+            
             <div className={s.product}>
                 <div className={s.imgWrapper}>
                     <img src={pictures} alt={`Изображение ${name}`} />

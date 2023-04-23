@@ -17,6 +17,7 @@ import { CardsContext } from '../../contexts/card-context';
 import { FavoritesPage } from '../../pages/favorite-page';
 
 import './styles.css';
+import { TABS_ID } from '../../utils/constants';
 
 
 export function App() {
@@ -25,6 +26,7 @@ export function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [currentSort, setCurrentSort] = useState('');
 
   const debounceSearchQuery = useDebounce(searchQuery, 300);
 
@@ -87,10 +89,19 @@ export function App() {
       .finally(() => { setIsLoading(false) }) 
   }, [])
 
+  function sortedData(currentSort) {
+    switch (currentSort) {
+      case (TABS_ID.CHEAP): setCards(cards.sort((a, b) => a.price - b.price)); break;
+      case (TABS_ID.LOW): setCards(cards.sort((a, b) => b.price - a.price)); break;
+      case (TABS_ID.DISCOUNT): setCards(cards.sort((a, b) => b.discount - a.discount)); break;
+      default: setCards(cards.sort((a, b) => a.price - b.price));
+    }
+  }
+
   return (
-    <CardsContext.Provider value={{ cards, favorites, handleLike: handleProductLike}}>
+    <CardsContext.Provider value={{ cards, favorites, handleLike: handleProductLike, isLoading, onSortData: sortedData, currentSort, setCurrentSort }}>
       <UserContext.Provider value={{currentUser, onUpdateUser:handleUserUpdate}}>
-        <Header user={currentUser}>
+        <Header>
           
           <Routes>
             <Route path='/' element={

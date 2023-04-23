@@ -1,23 +1,33 @@
-import likeIcon from './assets/favorites.svg';
-import dog from './assets/dog.svg';
-import bag from './assets/bag.svg';
-import menu from './assets/menu.svg';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
-import './styles.css';
+import {ReactComponent as FavoriteIcon} from './img/favorites.svg';
+import dog from './img/dog.svg';
+import bag from './img/bag.svg';
+import menu from './img/menu.svg';
+import { UserContext } from '../../contexts/current-user-context';
+import { CardsContext } from '../../contexts/card-context';
+
+import s from './styles.module.css';
 
 export function Nav() {
+    const { currentUser, onUpdateUser } = useContext(UserContext);
+    const { favorites } = useContext(CardsContext);
+
     return (
         <nav>
-            <ul className='nav__wrapper'>
-                <li className=""><a href="#" className="" title="Избранное"><img src={likeIcon} alt="Избранное" className="nav__btn-icon" /></a></li>
-                <li className=""><a href="#" className="" title="Корзина"><img src={bag} alt="Корзина" className="nav__btn-icon" /></a></li>
-                <li className=""><a href="#" className="" title="Личный кабинет"><img src={dog} alt="Личный кабинет" className="nav__btn-icon" /></a></li>  
-            </ul>
-            <ul className='nav__wrapper-small'>
-                <li className="">
-                    <a href="#" className=""><img src={menu} alt="Меню" className="nav__btn-icon" /></a>
-                </li>
-            </ul>                  
+            <div className={s.nav__wrapper}>
+                <Link className={s.favoritesLink} to={{pathname: '/favorites'}}>
+                    <FavoriteIcon title='Избранное'/>
+                    {favorites.length !== 0 && <span className={s.iconBubble}>{favorites.length}</span>}
+                </Link>
+                
+                <img src={bag} alt="Корзина" />
+                <img src={dog} alt="Личный кабинет" /> 
+            </div>
+            <div className={s.nav__wrapper_small}>
+                <img src={menu} alt="Меню" />
+            </div>                  
         </nav> 
     );
 }
