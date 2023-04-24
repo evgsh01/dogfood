@@ -20,3 +20,5 @@ export const TABS = [
 ]
 
 export const PREV_PAGE = -1;
+
+export const MAX_COUNT_RATING = 5;

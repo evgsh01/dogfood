@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { calcDiscountPrice, isLiked } from "../../utils/products";
 import { Button } from "../button";
@@ -9,6 +9,8 @@ import truck from "../../images/truck.svg";
 import quality from "../../images/quality.svg";
 import { UserContext } from "../../contexts/current-user-context";
 import { ContentHeader } from '../content-header';
+import Rating from "../rating";
+import { MAX_COUNT_RATING } from "../../utils/constants";
 
 import s from "./styles.module.css";
 
@@ -16,10 +18,11 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
     const navigate = useNavigate();
 
     const { currentUser } = useContext(UserContext);
+    const [currentRating, setCurrentRating] = useState(MAX_COUNT_RATING);
 
     const discount_price = calcDiscountPrice(price, discount);
 
-    const like = isLiked(likes, currentUser?._id);
+    const like = isLiked(likes, currentUser?._id);    
 
     function handleLikeClick() {
         onProductLike( {likes, _id} );
@@ -33,6 +36,7 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
         <>
             <ContentHeader textButton='Назад' title={name}>
                 <p className={s.aсticul}>Артикул: <b>2222222</b></p>
+                <Rating currentRating={currentRating} setCurrentRating={setCurrentRating} isEditable={true}/>
             </ContentHeader>
             
             <div className={s.product}>
