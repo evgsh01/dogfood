@@ -7,14 +7,13 @@ import Rating from '../rating';
 import Form from '../form';
 import api from '../../utils/api';
 
-function FormReview({ title = 'Отзыв о товаре', productId, setProduct }) {
+function FormReview({ title = 'Отзыв о товаре', productId, onSubmitFormReview, setProduct }) {
 
     const { register, control, handleSubmit, formState: { errors }, reset } = useForm({ mode: "onBlur" })
 
     const handleSubmitFormReview = (data) => {
-        api.setProductReview(data, productId)
-            .then(() => reset())
-            .catch((err) => console.log(err))
+        onSubmitFormReview(data, productId);
+        reset();
     }
 
     const textRegister = register('text', {

@@ -23,12 +23,18 @@ export const ProductPage = () => {
         });
     }
 
+    function handleSubmitFormReview(data, productId) {
+        api.setProductReview(data, productId)
+            .then((newData) => setProduct(newData))
+            .catch((err) => console.log(err))
+    }
+
     return (
         <>
             {
                 isLoading 
                 ? <Spinner/>
-                : !errorState && <Product {...product} onProductLike={handleProductLike}/>
+                : !errorState && <Product {...product} onProductLike={handleProductLike} onSubmitFormReview={handleSubmitFormReview}/>
             }
 
             {!isLoading && errorState && <NotFound title="Товар не найден"/>}

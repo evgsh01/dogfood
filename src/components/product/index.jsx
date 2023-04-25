@@ -15,7 +15,7 @@ import FormReview from '../form-review';
 
 import s from "./styles.module.css";
 
-function Product({ onProductLike, _id, name, pictures, description, discount, price, likes, reviews }) {
+function Product({ onProductLike, _id, name, pictures, description, discount, price, likes, onSubmitFormReview, reviews }) {
     const navigate = useNavigate();
 
     const { currentUser } = useContext(UserContext);
@@ -129,7 +129,7 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
                 </div>
             </div>
 
-            <FormReview title={`Отзыв о товаре ${name}`} productId={_id}/>
+            <FormReview title={`Отзыв о товаре ${name}`} productId={_id} onSubmitFormReview={onSubmitFormReview}/>
         </>
     );
 }
