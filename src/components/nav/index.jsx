@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 
-import {ReactComponent as FavoriteIcon} from './img/favorites.svg';
-import dog from './img/dog.svg';
+import { ReactComponent as FavoriteIcon } from './img/favorites.svg';
+import { ReactComponent as DogIcon } from './img/dog.svg';
 import bag from './img/bag.svg';
 import menu from './img/menu.svg';
 import { UserContext } from '../../contexts/current-user-context';
@@ -13,6 +13,7 @@ import s from './styles.module.css';
 export function Nav() {
     const { currentUser, onUpdateUser } = useContext(UserContext);
     const { favorites } = useContext(CardsContext);
+    const location = useLocation()
 
     return (
         <nav>
@@ -23,7 +24,10 @@ export function Nav() {
                 </Link>
                 
                 <img src={bag} alt="Корзина" />
-                <img src={dog} alt="Личный кабинет" /> 
+
+                <Link className={s.favoritesLink} to={{pathname: '/login'}} state={{ backgroundLocation: location, initialPath: location.pathname }}>
+                    <DogIcon title='Личный кабинет'/>
+                </Link>
             </div>
             <div className={s.nav__wrapper_small}>
                 <img src={menu} alt="Меню" />

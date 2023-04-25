@@ -11,6 +11,7 @@ import { UserContext } from "../../contexts/current-user-context";
 import { ContentHeader } from '../content-header';
 import Rating from "../rating";
 import { MAX_COUNT_RATING } from "../../utils/constants";
+import FormReview from '../form-review';
 
 import s from "./styles.module.css";
 
@@ -127,6 +128,8 @@ function Product({ onProductLike, _id, name, pictures, description, discount, pr
                     </div>
                 </div>
             </div>
+
+            <FormReview title={`Отзыв о товаре ${name}`} productId={_id}/>
         </>
     );
 }

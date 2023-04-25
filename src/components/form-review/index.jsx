@@ -5,15 +5,18 @@ import FormButton from '../form-button';
 
 import Rating from '../rating';
 import Form from '../form';
+import api from '../../utils/api';
 
 function FormReview({ title = 'Отзыв о товаре', productId, setProduct }) {
 
     const { register, control, handleSubmit, formState: { errors }, reset } = useForm({ mode: "onBlur" })
 
     const handleSubmitFormReview = (data) => {
-        console.log('handleSubmitFormReview', data);
-        reset();
+        api.setProductReview(data, productId)
+            .then(() => reset())
+            .catch((err) => console.log(err))
     }
+
     const textRegister = register('text', {
         required: {
             value: true,
