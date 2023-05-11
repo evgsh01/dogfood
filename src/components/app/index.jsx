@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Header } from '../header';
 import { Logo } from '../logo';
@@ -20,16 +21,21 @@ import { TABS_ID } from '../../utils/constants';
 import Modal from '../modal';
 import Register from '../register';
 import ResetPassword from '../reset-password';
+import { fetchProducts } from '../../storage/products/products-slice';
+import { fetchUser } from '../../storage/user/user-slice';
 
 import './styles.css';
 
 export function App() {
   const [cards, setCards] = useState([]);
+  //const cards = useSelector(state => state.products.data);
   const [favorites, setFavorites] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentSort, setCurrentSort] = useState('');
+
+  const dispatch = useDispatch();
 
   const debounceSearchQuery = useDebounce(searchQuery, 300);
 
@@ -101,6 +107,12 @@ export function App() {
       })
       .catch(err => console.log(err))
       .finally(() => { setIsLoading(false) }) 
+  }, [])
+
+  useEffect(() => {
+    dispatch(fetchUser()).then(() => {
+      dispatch(fetchProducts())
+    })
   }, [])
 
   function sortedData(currentSort) {
